@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=toronto&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
