@@ -1,10 +1,5 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import { useState } from "react";
 import { SearchDataProps } from '@/types/component-types';
-
-
-const inter = Inter({ subsets: ['latin'] })
 
 const Home: React.FC = () => {
   const [currentWeather, setCurrentWeather] = useState(null);
