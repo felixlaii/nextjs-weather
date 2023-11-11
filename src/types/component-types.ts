@@ -1,7 +1,6 @@
 export interface SearchDataProps {
     value: string;
     label: string;
-    onSearchChange?: (searchData: SearchDataProps) => void;
     inputValue: string;
     city: string;
     latitude: string;
@@ -9,5 +8,5 @@ export interface SearchDataProps {
     countryCode: string;
     name: string;
     searchData: string;
+    onSearchChange?: (searchData: SearchDataProps) => void;
   }
-  
