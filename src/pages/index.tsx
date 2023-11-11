@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { SearchDataProps } from "@/types/component-types";
 import Search from "@/components/search";
+import Forecast from "@/components/forecast";
+
 const Home: React.FC<{ onSearchChange: (searchData: SearchDataProps) => void}> = ({
   onSearchChange,
 }) => {
@@ -58,8 +60,8 @@ const Home: React.FC<{ onSearchChange: (searchData: SearchDataProps) => void}> =
         searchData="someSearchData"
         onSearchChange={handleOnSearchChange}
       />      {/* <Search onSearchChange={handleOnSearchChange} /> */}
-      {/* {currentWeather && <CurrentWeather data={currentWeather} />}
-      {forecast && <Forecast data={forecast} />} */}
+      {/* {currentWeather && <CurrentWeather data={currentWeather} />} */}
+      {forecast && <Forecast data={forecast} />}
     </div>
   );
 };
