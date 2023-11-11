@@ -2,26 +2,35 @@ import React, { useState } from "react";
 import { SearchDataProps } from "@/types/component-types";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { ActionMeta, SingleValue } from "react-select";
+import { SearchProps } from "@/types/component-types";
 
-const Search: React.FC<SearchDataProps> = ({ onSearchChange }) => {
+const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
   const [search, setSearch] = useState<null | SearchDataProps>(null);
 
   const loadOptions = (inputValue: string) => {
     return fetch(
-      `https://api.openweathermap.org/data/2.5/cities?minPopulation=1000000&namePrefix=${inputValue}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
     )
       .then((response) => response.json())
       .then((response) => {
         return {
-          options: response.data.map((city: SearchDataProps) => {
-            return {
-              value: `${city.latitude} ${city.longitude}`,
-              label: `${city.name}, ${city.countryCode}`,
-            };
-          }),
+          options: [
+            {
+              value: `${response.coord.lat} ${response.coord.lon}`,
+              label: `${response.name}, ${response.sys.country}`,
+              inputValue: "",  // Include necessary properties
+              city: response.name,
+              latitude: String(response.coord.lat),
+              longitude: String(response.coord.lon),
+              countryCode: response.sys.country,
+              name: response.name,
+              searchData: "",  // You may need to adjust this property based on your requirements
+            },
+          ],
         };
       });
   };
+  
 
   const handleOnChange = (
     selectedOption: SingleValue<SearchDataProps>,
@@ -50,14 +59,13 @@ const Search: React.FC<SearchDataProps> = ({ onSearchChange }) => {
           name: "",
           searchData: "",
         };
-  
+
     setSearch(searchData);
-  
+
     if (onSearchChange) {
       onSearchChange(searchData);
     }
   };
-  
 
   return (
     <AsyncPaginate

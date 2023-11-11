@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-interface WeatherData {
+export interface WeatherData {
     city: string;
     weather: {
       description: string;
@@ -23,24 +23,30 @@ interface WeatherData {
   }
   
 const CurrentWeather: React.FC<CurrentWeatherProps> = ({data}) => {
+    if (!data || !data.city || !data.weather || !data.weather[0]) {
+        return <div>Error: Invalid data</div>;
+      }
     return (
-<div className="weather">
-      <div className="top">
+<div className="w-[300px] rounded-lg shadow-xl bg-white">
+      <div className="flex justify-between items-center">
         <div>
-          <p className="city">{data.city}</p>
-          <p className="weather-description">{data.weather[0].description}</p>
+          <p className="tracking-wide">{data.city}</p>
+          <p className="text-md">{data.weather[0].description}</p>
         </div>
         <Image
           alt="weather"
-          className="weather-icon"
-          src={`icons/${data.weather[0].icon}.png`}
+          width={100}
+          height={100}
+          className="w-[100px]"
+          src={`/icons/${data.weather[0].icon}.png` }
+          
         />
       </div>
-      <div className="bottom">
-        <p className="temperature">{Math.round(data.main.temp)}°C</p>
-        <div className="details">
-          <div className="parameter-row">
-            <span className="parameter-label">Details</span>
+      <div className="flex justify-between items-center">
+        <p className="w-auto">{Math.round(data.main.temp)}°C</p>
+        <div className="w-full pl-[20px]">
+          <div className="flex justify-between">
+            <span className="text-left">Details</span>
           </div>
           <div className="parameter-row">
             <span className="parameter-label">Feels like</span>

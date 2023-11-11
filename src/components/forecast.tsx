@@ -18,7 +18,9 @@ const WEEK_DAYS = [
     "Sunday",
   ];
 
-  interface ForecastDataItem {
+
+  export interface ForecastDataItem {
+    city: string;
     weather: {
       icon: string;
       description: string;
@@ -39,12 +41,11 @@ const WEEK_DAYS = [
     };
   }
   
-  interface ForecastProps {
+  export interface ForecastProps {
     data: {
       list: ForecastDataItem[];
     };
   }
-
 
 
   const Forecast: React.FC<ForecastProps> = ({ data }) => {
@@ -56,8 +57,8 @@ const WEEK_DAYS = [
     const current = new Date();
     let currentDate = current.toString().slice(0, 15);
   
-    // Create a new array with the desired elements for rendering
-    const forecastData = data.list.slice(0, 7);
+    // Ensure that data and data.list are not null or undefined
+    const forecastData = data?.list?.slice(0, 7) || [];
   
     return (
       <>
@@ -65,16 +66,18 @@ const WEEK_DAYS = [
         <Accordion allowZeroExpanded>
           {forecastData.map((item, idx) => (
             <AccordionItem key={idx}>
-                    <AccordionItemButton>
+              <AccordionItemButton>
                 <div className="daily-item">
                   <Image
-                    src={`icons/${item.weather[0].icon}.png`}
+                    src={{ src: `/icons/${item.weather[0]?.icon}.png`, width: 100, height: 100 }}
                     className="icon-small"
-                    alt="weather"
+                    alt={item.weather[0]?.description || "Weather icon"}
                   />
+  
                   <label className="day">{forecastDays[idx]}</label>
                   <label className="description">
-                    {item.weather[0].description}
+                    {item.weather[0]?.description ??
+                      "No description available"}
                   </label>
                   <label className="min-max">
                     {Math.round(item.main.temp_max)}°C /
@@ -83,33 +86,33 @@ const WEEK_DAYS = [
                 </div>
               </AccordionItemButton>
               <AccordionItemPanel>
-              <div className="daily-details-grid">
-                <div className="daily-details-grid-item">
-                  <label>Pressure:</label>
-                  <label>{item.main.pressure}</label>
+                <div className="daily-details-grid">
+                  <div className="daily-details-grid-item">
+                    <label>Pressure:</label>
+                    <label>{item.main.pressure}</label>
+                  </div>
+                  <div className="daily-details-grid-item">
+                    <label>Humidity:</label>
+                    <label>{item.main.humidity}</label>
+                  </div>
+                  <div className="daily-details-grid-item">
+                    <label>Clouds:</label>
+                    <label>{item.clouds.all}%</label>
+                  </div>
+                  <div className="daily-details-grid-item">
+                    <label>Wind speed:</label>
+                    <label>{item.wind.speed} m/s</label>
+                  </div>
+                  <div className="daily-details-grid-item">
+                    <label>Sea level:</label>
+                    <label>{item.main.sea_level}m</label>
+                  </div>
+                  <div className="daily-details-grid-item">
+                    <label>Feels like:</label>
+                    <label>{item.main.feels_like}°C</label>
+                  </div>
                 </div>
-                <div className="daily-details-grid-item">
-                  <label>Humidity:</label>
-                  <label>{item.main.humidity}</label>
-                </div>
-                <div className="daily-details-grid-item">
-                  <label>Clouds:</label>
-                  <label>{item.clouds.all}%</label>
-                </div>
-                <div className="daily-details-grid-item">
-                  <label>Wind speed:</label>
-                  <label>{item.wind.speed} m/s</label>
-                </div>
-                <div className="daily-details-grid-item">
-                  <label>Sea level:</label>
-                  <label>{item.main.sea_level}m</label>
-                </div>
-                <div className="daily-details-grid-item">
-                  <label>Feels like:</label>
-                  <label>{item.main.feels_like}°C</label>
-                </div>
-              </div>
-            </AccordionItemPanel>
+              </AccordionItemPanel>
             </AccordionItem>
           ))}
         </Accordion>
@@ -118,4 +121,3 @@ const WEEK_DAYS = [
   };
   
   export default Forecast;
-  

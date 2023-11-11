@@ -1,70 +1,60 @@
-import { useState } from "react";
-import { SearchDataProps } from "@/types/component-types";
+import React, { useState } from "react";
 import Search from "@/components/search";
-import Forecast from "@/components/forecast";
-import CurrentWeather from "@/components/current-weather";
+import CurrentWeather, { WeatherData } from "@/components/current-weather";
+import Forecast, { ForecastDataItem } from "@/components/forecast";
+import { SearchDataProps } from "@/types/component-types";
 
-const Home: React.FC<{ onSearchChange: (searchData: SearchDataProps) => void}> = ({
-  onSearchChange,
-}) => {
-  const [currentWeather, setCurrentWeather] = useState(null);
-  const [forecast, setForecast] = useState(null);
+const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather";
+const FORECAST_API_URL = "https://api.openweathermap.org/data/2.5/forecast";
 
-  const searchData: SearchDataProps = {
-    value: "someValue",
-    label: "someLabel",
-    inputValue: "someInputValue",
-    city: "someCity",
-    latitude: "someLatitude",
-    longitude: "someLongitude",
-    countryCode: "someCountryCode",
-    name: "someName",
-    searchData: "someSearchData",
-  };
+function App() {
+  const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(
+    null
+  );
+  const [forecast, setForecast] = useState<ForecastDataItem[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleOnSearchChange = (searchData: SearchDataProps) => {
+    setIsLoading(true);
+    setError(null);
+
     const [lat, lon] = searchData.value.split(" ");
 
     const currentWeatherFetch = fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+      `${WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric`
     );
     const forecastFetch = fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+      `${FORECAST_API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric`
     );
 
     Promise.all([currentWeatherFetch, forecastFetch])
       .then(async (responses) => {
-        const [currentWeatherResponse, forecastResponse] = await Promise.all(
+        const [weatherResponse, forecastResponse] = await Promise.all(
           responses.map((response) => response.json())
         );
 
-        setCurrentWeather({
-          city: searchData.label,
-          ...currentWeatherResponse,
-        });
-        setForecast({ city: searchData.label, ...forecastResponse });
+        setCurrentWeather({ city: searchData.label, ...weatherResponse });
+        setForecast(forecastResponse.list || null); // Handle null if list is not available
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
-    <div>
-   <Search
-        value="someValue"
-        label="someLabel"
-        inputValue="someInputValue"
-        city="someCity"
-        latitude="someLatitude"
-        longitude="someLongitude"
-        countryCode="someCountryCode"
-        name="someName"
-        searchData="someSearchData"
-        onSearchChange={handleOnSearchChange}
-      />    
+    <div className="container">
+      <Search onSearchChange={handleOnSearchChange} />
+      {isLoading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
       {currentWeather && <CurrentWeather data={currentWeather} />}
-      {forecast && <Forecast data={forecast} />}
+      {forecast && <Forecast data={{ list: forecast }} />}
     </div>
   );
-};
+}
 
-export default Home;
+export default App;

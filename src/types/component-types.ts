@@ -8,5 +8,11 @@ export interface SearchDataProps {
     countryCode: string;
     name: string;
     searchData: string;
-    onSearchChange?: (searchData: SearchDataProps) => void;
+  }
+
+
+  
+  // The onSearchChange prop should have this signature:
+  export interface SearchProps {
+    onSearchChange: (searchData: SearchDataProps) => void;
   }
