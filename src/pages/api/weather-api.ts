@@ -19,3 +19,18 @@ export const getWeatherData = async (lat:string, lon: string) => {
         )
     }
 }
+
+export const getForecastData = async (
+    lat: string, lon: string
+): Promise<ForecastDataItem[] | null> => {
+    try {
+        const response = await fetch(
+            `${FORECAST_API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric`
+        )
+        const data: { list: ForecastDataItem[] } = await response.json()
+        return data.list || null;
+    } catch (error) {
+        console.error("Error fetching forecast data:", error);
+        throw new Error("Error fetching forecast data. Please try again.");
+    }
+}
