@@ -25,9 +25,10 @@ export interface WeatherData {
   const parameterRow = "flex justify-between";
   const parameterLabel = "text-left font-400 text-[12px]"
   const parameterValue = "text-right font-600 text-[12px]"
-  const weather = "w-[300px] rounded-md shadow-lg text-white bg-darkgrey pt-0 pr-20 pb-20 pl-20 m-20 mx-auto mt-0"
+  const weather = "w-300 border-6 shadow-md shadow-xl color-white bg-darkgray mx-auto my-20 px-20 pb-20"
   const top = "flex justify-between items-center"
-  const city = "font-600 text-[18px] m-0 tracking-wide"
+  const city = "font-semibold text-18 leading-tight m-0 tracking-wide"
+  const temperature = "font-600 text-70 leading-none tracking-tight m-10 0"
   const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
     if (!data || !data.city || !data.weather || !data.weather[0]) {
       return <div>Error: Invalid data</div>;
@@ -48,7 +49,7 @@ export interface WeatherData {
           />
         </div>
         <div className={parameterRow}>
-          <p className="w-auto">{Math.round(data.main.temp)}°C</p>
+          <p className={temperature}>{Math.round(data.main.temp)}°C</p>
           <div className="w-full pl-[20px]">
             <div className={parameterRow}>
               <span className="text-left">Details</span>

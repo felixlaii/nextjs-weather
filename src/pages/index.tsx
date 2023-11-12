@@ -47,7 +47,7 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div className="my-20 mr-10 ml-10 mx-auto w-max-1080px">
       <Search onSearchChange={handleOnSearchChange} />
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
