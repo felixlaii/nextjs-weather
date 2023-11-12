@@ -61,7 +61,7 @@ const WEEK_DAYS = [
     const forecastData = data?.list?.slice(0, 7) || [];
   
     const title = "text-[23px] font-700"
-    const dailyItem = "bg-zinc-300 rounded-md h-[40px] h-10 m-5 items-center cursor-pointer flex text-[14px] pt-5 pb-20"
+    const dailyItem = "bg-gray-200 rounded-lg h-10 m-1 items-center cursor-pointer flex text-base px-5"
     const iconSmall = "w-[40px]"
     const dailyItemDay = "cursor-pointer text-gray-700 flex-1 font-semibold ml-4"
     const weatherDescription = "cursor-pointer flex-1 mr-4 text-right"
@@ -94,29 +94,29 @@ const WEEK_DAYS = [
               </AccordionItemButton>
               <AccordionItemPanel>
                 <div className={dailyDetailsGrid}>
-                  <div className={dailyDetailsGridItem}>
-                    <label>Pressure:</label>
-                    <label>{item.main.pressure}</label>
+                <div className={dailyDetailsGridItem}>                    
+                <label className="text-gray-600">Pressure:</label>
+                    <label className="text-gray-800">{item.main.pressure}</label>
                   </div>
                   <div className={dailyDetailsGridItem}>
-                    <label>Humidity:</label>
-                    <label>{item.main.humidity}</label>
+                    <label className="text-gray-600">Humidity:</label>
+                    <label className="text-gray-800">{item.main.humidity}</label>
                   </div>
                   <div className={dailyDetailsGridItem}>
-                    <label>Clouds:</label>
-                    <label>{item.clouds.all}%</label>
+                    <label className="text-gray-600">Clouds:</label>
+                    <label className="text-gray-800">{item.clouds.all}%</label>
                   </div>
                   <div className={dailyDetailsGridItem}>
-                    <label>Wind speed:</label>
-                    <label>{item.wind.speed} m/s</label>
+                    <label className="text-gray-600">Wind speed:</label>
+                    <label className="text-gray-800">{item.wind.speed} m/s</label>
                   </div>
                   <div className={dailyDetailsGridItem}>
-                    <label>Sea level:</label>
-                    <label>{item.main.sea_level}m</label>
+                    <label className="text-gray-600">Sea level:</label>
+                    <label className="text-gray-800">{item.main.sea_level}m</label>
                   </div>
                   <div className={dailyDetailsGridItem}>
-                    <label>Feels like:</label>
-                    <label>{item.main.feels_like}°C</label>
+                    <label className="text-gray-600">Feels like:</label>
+                    <label className="text-gray-800">{item.main.feels_like}°C</label>
                   </div>
                 </div>
               </AccordionItemPanel>
