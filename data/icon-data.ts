@@ -1,0 +1,21 @@
+export const IconData: { image: string }[] = [
+    {image: "/01d.png"},
+    {image: "/01n.png"},
+    {image: "/02d.png"},
+    {image: "/02n.png"},
+    {image: "/03d.png"},
+    {image: "/03n.png"},
+    {image: "/04d.png"},
+    {image: "/04n.png"},
+    {image: "/09d.png"},
+    {image: "/09n.png"},
+    {image: "/010n.png"},
+    {image: "/011d.png"},
+    {image: "/011n.png"},
+    {image: "/013d.png"},
+    {image: "/013n.png"},
+    {image: "/50d.png"},
+    {image: "/50n.png"},
+    {image: "/unknown.png"},
+
+]
