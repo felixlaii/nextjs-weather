@@ -18,19 +18,18 @@ const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
             {
               value: `${response.coord.lat} ${response.coord.lon}`,
               label: `${response.name}, ${response.sys.country}`,
-              inputValue: "",  // Include necessary properties
+              inputValue: "",
               city: response.name,
               latitude: String(response.coord.lat),
               longitude: String(response.coord.lon),
               countryCode: response.sys.country,
               name: response.name,
-              searchData: "",  // You may need to adjust this property based on your requirements
+              searchData: "", 
             },
           ],
         };
       });
   };
-  
 
   const handleOnChange = (
     selectedOption: SingleValue<SearchDataProps>,
@@ -49,7 +48,7 @@ const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
           searchData: "",
         }
       : {
-          value: "",  // Provide default values if selectedOption is null
+          value: "", 
           label: "",
           inputValue: "",
           city: "",
