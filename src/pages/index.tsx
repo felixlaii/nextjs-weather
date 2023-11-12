@@ -35,7 +35,7 @@ function App() {
         );
 
         setCurrentWeather({ city: searchData.label, ...weatherResponse });
-        setForecast(forecastResponse.list || null); // Handle null if list is not available
+        setForecast(forecastResponse.list || null);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
