@@ -25,10 +25,12 @@ export interface WeatherData {
   const parameterRow = "flex justify-between";
   const parameterLabel = "text-left font-400 text-[12px]"
   const parameterValue = "text-right font-600 text-[12px]"
-  const weather = "w-300 border-6 shadow-md shadow-xl color-white bg-darkgray mx-auto my-20 px-20 pb-20"
+  const weather = "w-300 border-6 rounded-lg shadow-xl text-white bg-gray-600 mx-auto mt-20 mb-0 p-0 sm:p-4"
   const top = "flex justify-between items-center"
-  const city = "font-semibold text-18 leading-tight m-0 tracking-wide"
-  const temperature = "font-600 text-70 leading-none tracking-tight m-10 0"
+  const city = "font-bold text-18 leading-1 m-0 tracking-wider"
+  const temperature = "font-bold text-70 tracking-wide mb-10"
+  const parameterLabelTop = "border-b border-white text-left font-400 text-[12px]"
+
   const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
     if (!data || !data.city || !data.weather || !data.weather[0]) {
       return <div>Error: Invalid data</div>;
@@ -48,9 +50,9 @@ export interface WeatherData {
             src={`/icons/${data.weather[0].icon}.png`}
           />
         </div>
-        <div className={parameterRow}>
+        <div className={top}>
           <p className={temperature}>{Math.round(data.main.temp)}°C</p>
-          <div className="w-full pl-[20px]">
+          <div className="w-full pl-20">
             <div className={parameterRow}>
               <span className="text-left">Details</span>
             </div>
@@ -61,15 +63,15 @@ export interface WeatherData {
               </span>
             </div>
             <div className={parameterRow}>
-              <span className={parameterLabel}>Wind</span>
+              <span className={parameterLabelTop}>Wind</span>
               <span className={parameterValue}>{data.wind.speed} m/s</span>
             </div>
             <div className={parameterRow}>
-              <span className={parameterLabel}>Humidity</span>
+              <span className={parameterLabelTop}>Humidity</span>
               <span className={parameterValue}>{data.main.humidity}%</span>
             </div>
             <div className={parameterRow}>
-              <span className={parameterLabel}>Pressure</span>
+              <span className={parameterLabelTop}>Pressure</span>
               <span className={parameterValue}>{data.main.pressure} hPa</span>
             </div>
           </div>
