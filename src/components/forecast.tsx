@@ -60,56 +60,63 @@ const WEEK_DAYS = [
     // Ensure that data and data.list are not null or undefined
     const forecastData = data?.list?.slice(0, 7) || [];
   
+    const title = "text-[23px] font-700"
+    const dailyItem = "bg-gray-200 rounded-xl h-10 m-1 items-center cursor-pointer flex text-base px-5"
+    const iconSmall = "w-[40px]"
+    const dailyItemDay = "cursor-pointer text-gray-700 flex-1 font-semibold ml-4"
+    const weatherDescription = "cursor-pointer flex-1 mr-4 text-right"
+    const dailyDetailsGrid = "grid gap-x-4 grid-cols-2 py-1 px-4"
+    const dailyDetailsGridItem = "items-center flex h-8 justify-between"
     return (
       <>
-        <label className="title">Date: {currentDate}</label>
+        <label className={title}>Date: {currentDate}</label>
         <Accordion allowZeroExpanded>
           {forecastData.map((item, idx) => (
             <AccordionItem key={idx}>
               <AccordionItemButton>
-                <div className="daily-item">
+                <div className={dailyItem}>
                   <Image
                     src={{ src: `/icons/${item.weather[0]?.icon}.png`, width: 100, height: 100 }}
-                    className="icon-small"
+                    className={iconSmall}
                     alt={item.weather[0]?.description || "Weather icon"}
                   />
   
-                  <label className="day">{forecastDays[idx]}</label>
-                  <label className="description">
+                  <label className={dailyItemDay}>{forecastDays[idx]}</label>
+                  <label className={weatherDescription}>
                     {item.weather[0]?.description ??
                       "No description available"}
                   </label>
-                  <label className="min-max">
+                  <label className="text-gray-600">
                     {Math.round(item.main.temp_max)}°C /
                     {Math.round(item.main.temp_min)}°C
                   </label>
                 </div>
               </AccordionItemButton>
               <AccordionItemPanel>
-                <div className="daily-details-grid">
-                  <div className="daily-details-grid-item">
-                    <label>Pressure:</label>
-                    <label>{item.main.pressure}</label>
+                <div className={dailyDetailsGrid}>
+                <div className={dailyDetailsGridItem}>                    
+                <label className="text-gray-600">Pressure:</label>
+                    <label className="text-gray-800">{item.main.pressure}</label>
                   </div>
-                  <div className="daily-details-grid-item">
-                    <label>Humidity:</label>
-                    <label>{item.main.humidity}</label>
+                  <div className={dailyDetailsGridItem}>
+                    <label className="text-gray-600">Humidity:</label>
+                    <label className="text-gray-800">{item.main.humidity}</label>
                   </div>
-                  <div className="daily-details-grid-item">
-                    <label>Clouds:</label>
-                    <label>{item.clouds.all}%</label>
+                  <div className={dailyDetailsGridItem}>
+                    <label className="text-gray-600">Clouds:</label>
+                    <label className="text-gray-800">{item.clouds.all}%</label>
                   </div>
-                  <div className="daily-details-grid-item">
-                    <label>Wind speed:</label>
-                    <label>{item.wind.speed} m/s</label>
+                  <div className={dailyDetailsGridItem}>
+                    <label className="text-gray-600">Wind speed:</label>
+                    <label className="text-gray-800">{item.wind.speed} m/s</label>
                   </div>
-                  <div className="daily-details-grid-item">
-                    <label>Sea level:</label>
-                    <label>{item.main.sea_level}m</label>
+                  <div className={dailyDetailsGridItem}>
+                    <label className="text-gray-600">Sea level:</label>
+                    <label className="text-gray-800">{item.main.sea_level}m</label>
                   </div>
-                  <div className="daily-details-grid-item">
-                    <label>Feels like:</label>
-                    <label>{item.main.feels_like}°C</label>
+                  <div className={dailyDetailsGridItem}>
+                    <label className="text-gray-600">Feels like:</label>
+                    <label className="text-gray-800">{item.main.feels_like}°C</label>
                   </div>
                 </div>
               </AccordionItemPanel>
