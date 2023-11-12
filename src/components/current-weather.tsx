@@ -25,7 +25,7 @@ export interface WeatherData {
   const parameterRow = "flex justify-between";
   const parameterLabel = "text-left font-400 text-[12px]"
   const parameterValue = "text-right font-600 text-[12px]"
-  const weather = "w-300 border-6 rounded-lg shadow-xl text-white bg-gray-600 mx-auto mt-20 mb-0 p-0 sm:p-4"
+  const weather = "w-1/3 border-6 rounded-lg shadow-xl text-white bg-gray-600 mx-auto mt-20 mb-0 p-0 sm:p-4"
   const top = "flex justify-between items-center"
   const city = "font-bold text-18 leading-1 m-0 tracking-wider"
   const temperature = "font-bold text-70 tracking-wide mb-10"

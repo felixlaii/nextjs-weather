@@ -61,7 +61,7 @@ const WEEK_DAYS = [
     const forecastData = data?.list?.slice(0, 7) || [];
   
     const title = "text-[23px] font-700"
-    const dailyItem = "bg-gray-200 rounded-lg h-10 m-1 items-center cursor-pointer flex text-base px-5"
+    const dailyItem = "bg-gray-200 rounded-xl h-10 m-1 items-center cursor-pointer flex text-base px-5"
     const iconSmall = "w-[40px]"
     const dailyItemDay = "cursor-pointer text-gray-700 flex-1 font-semibold ml-4"
     const weatherDescription = "cursor-pointer flex-1 mr-4 text-right"
