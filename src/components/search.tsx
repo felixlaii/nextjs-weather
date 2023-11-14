@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { SearchDataProps } from "@/types/component-types";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { ActionMeta, SingleValue } from "react-select";
+import OptionType from "react-select"
 import { SearchProps } from "@/types/component-types";
 
 const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
   const [search, setSearch] = useState<null | SearchDataProps>(null);
 
-  const loadOptions = (inputValue: string) => {
+  const loadOptions = (inputValue: string): Promise<{ options: OptionType[] }> => {
     return fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
     )
@@ -30,10 +31,12 @@ const Search: React.FC<SearchProps> = ({ onSearchChange }) => {
         };
       });
   };
+  const myObject: StateManagedSelect 
+  const myValue = (myObject as any).value;
 
   const handleOnChange = (
-    selectedOption: SingleValue<SearchDataProps>,
-    actionMeta: ActionMeta<SearchDataProps>
+    selectedOption: OptionType,
+    actionMeta: ActionMeta<OptionType>
   ) => {
     const searchData: SearchDataProps | null = selectedOption
       ? {
