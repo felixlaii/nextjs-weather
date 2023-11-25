@@ -76,7 +76,7 @@ const Search: React.FC<{
         onChange={(e) => handleInputChange(e.target.value)}
       />
       {isLoading && <p>Loading...</p>}
-      <ul>
+      <ul className="pt-2">
         {options.map((option) => (
           <li
             className="px-1"
