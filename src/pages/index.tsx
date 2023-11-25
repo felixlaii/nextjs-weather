@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Search from "@/components/search";
-import CurrentWeather, { WeatherData } from "@/components/current-weather";
-import Forecast, { ForecastDataItem } from "@/components/forecast";
+import CurrentWeather from "@/components/current-weather";
+import { WeatherData } from "@/types/component-types";
+import Forecast from "@/components/forecast";
+import { ForecastDataItem } from "@/types/component-types";
 import { SearchDataProps } from "@/types/component-types";
 
 const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather";
@@ -15,35 +17,48 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleOnSearchChange = (searchData: SearchDataProps) => {
+  const fetchData = async (searchData?: SearchDataProps) => {
     setIsLoading(true);
     setError(null);
 
-    const [lat, lon] = searchData.value.split(" ");
+    try {
+      const coordinates = searchData?.value
+        ? searchData.value.split(" ")
+        : ["0", "0"];
+      const [lat, lon] = coordinates;
 
-    const currentWeatherFetch = fetch(
-      `${WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric`
-    );
-    const forecastFetch = fetch(
-      `${FORECAST_API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric`
-    );
+      const currentWeatherResponse = await fetch(
+        `${WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric`
+      );
+      const forecastResponse = await fetch(
+        `${FORECAST_API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric`
+      );
 
-    Promise.all([currentWeatherFetch, forecastFetch])
-      .then(async (responses) => {
-        const [weatherResponse, forecastResponse] = await Promise.all(
-          responses.map((response) => response.json())
-        );
+      const weatherData: WeatherData = {
+        city: searchData?.label || "Unknown City",
+        ...(await currentWeatherResponse.json()),
+      };
 
-        setCurrentWeather({ city: searchData.label, ...weatherResponse });
-        setForecast(forecastResponse.list || null); // Handle null if list is not available
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setError("Error fetching data. Please try again.");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      const forecastData: ForecastDataItem[] | null = (
+        await forecastResponse.json()
+      ).list;
+
+      setCurrentWeather(weatherData);
+      setForecast(forecastData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError("Error fetching data. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleOnSearchChange = (searchData: SearchDataProps) => {
+    fetchData(searchData);
   };
 
   return (
