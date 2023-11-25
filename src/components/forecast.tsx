@@ -1,10 +1,4 @@
-import React from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from "react-accessible-accordion";
+import React, { useState } from "react";
 import Image from "next/image";
 import { ForecastProps } from "@/types/component-types";
 
@@ -25,41 +19,47 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
   );
 
   const current = new Date();
-  let currentDate = current.toString().slice(0, 15);
+  const currentDate = current.toString().slice(0, 15);
+
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const handleAccordionClick = (index: number) => {
+    setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
 
   const forecastData = data?.list?.slice(0, 7) || [];
 
   return (
     <>
       <label className="text-lg font-700">Date: {currentDate}</label>
-      <Accordion allowZeroExpanded>
+      <div>
         {forecastData.map((item, idx) => (
-          <AccordionItem key={idx}>
-            <AccordionItemButton>
-              <div className="bg-gray-200 rounded-xl h-10 m-1 items-center cursor-pointer flex text-base px-5">
-                <Image
-                  src={{
-                    src: `/icons/${item.weather[0]?.icon}.png`,
-                    width: 100,
-                    height: 100,
-                  }}
-                  className="w-[40px]"
-                  alt={item.weather[0]?.description || "Weather icon"}
-                />
-
-                <label className="cursor-pointer text-gray-700 flex-1 font-semibold ml-4">
-                  {forecastDays[idx]}
-                </label>
-                <label className="cursor-pointer flex-1 mr-4 text-right">
-                  {item.weather[0]?.description ?? "No description available"}
-                </label>
-                <label className="text-gray-600">
-                  {Math.round(item.main.temp_max)}°C /
-                  {Math.round(item.main.temp_min)}°C
-                </label>
-              </div>
-            </AccordionItemButton>
-            <AccordionItemPanel>
+          <div key={idx} className="mb-2">
+            <div
+              className="bg-gray-200 rounded-xl h-10 m-1 items-center cursor-pointer flex text-base px-5"
+              onClick={() => handleAccordionClick(idx)}
+            >
+              <Image
+                src={{
+                  src: `/icons/${item.weather[0]?.icon}.png`,
+                  width: 100,
+                  height: 100,
+                }}
+                className="w-[40px]"
+                alt={item.weather[0]?.description || "Weather icon"}
+              />
+              <label className="cursor-pointer text-gray-700 flex-1 font-semibold ml-4">
+                {forecastDays[idx]}
+              </label>
+              <label className="cursor-pointer flex-1 mr-4 text-right">
+                {item.weather[0]?.description ?? "No description available"}
+              </label>
+              <label className="text-gray-600">
+                {Math.round(item.main.temp_max)}°C /{" "}
+                {Math.round(item.main.temp_min)}°C
+              </label>
+            </div>
+            {expandedIndex === idx && (
               <div className="grid gap-x-4 grid-cols-2 py-1 px-4">
                 <div className="items-center flex h-8 justify-between">
                   <label className="text-gray-600">Pressure:</label>
@@ -90,10 +90,10 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
                   </label>
                 </div>
               </div>
-            </AccordionItemPanel>
-          </AccordionItem>
+            )}
+          </div>
         ))}
-      </Accordion>
+      </div>
     </>
   );
 };
