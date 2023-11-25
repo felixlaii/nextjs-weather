@@ -4,7 +4,7 @@ import { CurrentWeatherProps } from "@/types/component-types";
 
 const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
   if (!data || !data.city || !data.weather || !data.weather[0]) {
-    return <div>Error: Invalid data</div>;
+    return <div>Please search something else</div>;
   }
   return (
     <div className="w-1/3 border-6 rounded-lg shadow-xl text-white bg-gray-600 mx-auto mt-20 mb-0 p-0 sm:p-4">
