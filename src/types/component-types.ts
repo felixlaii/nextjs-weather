@@ -35,7 +35,6 @@ export interface CurrentWeatherProps {
   data: WeatherData;
 }
 
-
 export interface ForecastDataItem {
   city: string;
   weather: {
