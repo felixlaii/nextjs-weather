@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Search from "@/components/search";
-import CurrentWeather, { WeatherData } from "@/components/current-weather";
-import Forecast, { ForecastDataItem } from "@/components/forecast";
+import CurrentWeather from "@/components/current-weather";
+import { WeatherData } from "@/types/component-types";
+import Forecast from "@/components/forecast";
+import { ForecastDataItem } from "@/types/component-types";
 import { SearchDataProps } from "@/types/component-types";
 
 const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather";

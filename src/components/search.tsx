@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { SearchDataProps } from "@/types/component-types";
 
+const SEARCH_API_URL = "https://api.openweathermap.org/data/2.5/weather";
+
 const Search: React.FC<{
-  onSearchChange: (data: SearchDataProps | null) => void;
+  onSearchChange: (data: SearchDataProps) => void;
 }> = ({ onSearchChange }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<SearchDataProps[]>([]);
@@ -16,7 +18,7 @@ const Search: React.FC<{
 
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+        `${SEARCH_API_URL}?q=${inputValue}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
       );
 
       if (response.ok) {
@@ -56,7 +58,19 @@ const Search: React.FC<{
     setSelectedOption(selectedOption);
 
     if (onSearchChange) {
-      onSearchChange(selectedOption);
+      onSearchChange(
+        selectedOption ?? {
+          value: "",
+          label: "",
+          inputValue: "",
+          city: "",
+          latitude: "",
+          longitude: "",
+          countryCode: "",
+          name: "",
+          searchData: "",
+        }
+      );
     }
   };
 
