@@ -31,7 +31,7 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
 
   return (
     <>
-      <label className="text-[23px] font-700">Date: {currentDate}</label>
+      <label className="text-lg font-700">Date: {currentDate}</label>
       <Accordion allowZeroExpanded>
         {forecastData.map((item, idx) => (
           <AccordionItem key={idx}>
